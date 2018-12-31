@@ -1,0 +1,69 @@
+<?php
+/**
+ * @file
+ * page database info.
+ */
+
+function page_schema() {
+  $schema['page'] = array(
+    'description' => 'Stores page data.',
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'ID of page.',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => 1,
+        'default' => '',
+        'description' => 'page title.',
+      ),
+      'content' => array(
+        'type' => 'text',
+        'size' => 'normal',
+        'description' => "page content.",
+      ),
+      'uid' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "page uid.",
+      ),
+      'status' => array(
+        'type' => 'varchar',
+        'length' => 9,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'page status.',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the user was created.',
+      ),
+      'updated' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the user was updated.',
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Insert init page.
+ */
+function page_install() {
+
+}

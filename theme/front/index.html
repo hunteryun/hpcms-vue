@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ $page_title }}</title>
+    <link rel="stylesheet" href="/theme/front/css/style.css">
+  </head>
+  <body>
+    <div class="app">
+      {!! $messages !!}
+      <h1>欢迎使用HPCMS内容管理系统，宇内最强，没有之一！</h1>
+      <div class="links">
+        <a href="/admin" class="btn btn-start">访问后台</a>
+        <a href="http://www.hunterphp.com/doc" target="_blank" class="btn">开发文档</a>
+      </div>
+      <div class="browser-window">
+       <div class="top-bar">
+        快速开始
+       </div>
+       <div class="window-content">
+         <code class=" language-php">
+           <h3>1. 安装依赖库</h3>
+           <div class="des">
+             composer install
+           </div>
+           <h3>2. 安装模块数据表</h3>
+           <div class="des">
+             php hunter module:install all
+           </div>
+           <h3>3. 访问后台</h3>
+           <div class="des">
+             帐号：admin 密码：123456
+           </div>
+           <h3>4. 快速创建新闻内容类型</h3>
+           <div class="des">
+             php hunter ct:create
+           </div>
+           <h3>5. 自定义开发</h3>
+           <div class="des">
+             具体请查看front模块和hunter主题，以及开发文档，学习超简单的开发
+           </div>
+         </code>
+       </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+name: Paginator
+type: module
+description: Generating pagination controls for HunterPHP.
+core: 1.x
+package: Hunter

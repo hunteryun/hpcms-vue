@@ -1,0 +1,82 @@
+<?php
+
+use Hunter\entity\Plugin\Entity;
+use Hunter\entity\Plugin\EntityConfig;
+
+
+/**
+ * 读取Entity
+ */
+function entity_load($type, $id, $parms = array(), $fromQuery = false) {
+    return entity($type)->loadObject($id, $parms, $fromQuery);
+}
+
+/**
+ * 读取多个Entity
+ */
+function entity_load_many($type, $ids = array(), $parms = array(), $fromQuery = false) {
+    return entity($type)->load($ids, $parms, $fromQuery);
+}
+
+/**
+ * 添加Entity
+ */
+function entity_create($type, $values) {
+    return entity($type)->create($values);
+}
+
+/**
+ * 更新Entity
+ */
+function entity_update($type, $values) {
+    return entity($type)->update($values);
+}
+
+/**
+ * 删除Entity
+ */
+function entity_delete($type, $values) {
+    return entity($type)->delete($values);
+}
+
+/**
+ * 删除多个Entity
+ */
+function entity_delete_many($type, $values) {
+    return entity($type)->delete_many($values);
+}
+
+/**
+ * Entity Merge
+ */
+function entity_merge($type, $values, $parms = array()) {
+    return entity($type)->merge($values, $parms);
+}
+
+/**
+ * Entity Info
+ */
+function entity_info($type) {
+    return entity($type)->info();
+}
+
+/**
+ * Entity cache
+ */
+function entity_cache($type) {
+    return entity($type)->cacheBin();
+}
+
+/**
+ * Entity的控制器类单例
+ */
+function entity($type) {
+    static $entity = array();
+
+    if (!isset($entity[$type])) {
+        $info  = EntityConfig::getEntityInfo($type);
+        $entity[$type] = new Entity($type);
+    }
+
+    return $entity[$type];
+}

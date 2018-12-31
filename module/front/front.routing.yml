@@ -1,0 +1,5 @@
+front.home:
+  path: '/'
+  defaults:
+    _controller: '\Hunter\front\Controller\FrontController::home'
+    _title: 'Home'

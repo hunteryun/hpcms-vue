@@ -1,0 +1,8 @@
+name: Views
+type: module
+description: Create customized lists and queries from your database.
+core: 1.x
+package: Hunter
+dependencies:
+  - variable
+  - paginator

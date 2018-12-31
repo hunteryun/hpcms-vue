@@ -1,0 +1,152 @@
+<?php
+
+use Zend\Diactoros\Response\JsonResponse;
+use Hunter\Core\Serialization\Yaml;
+
+/**
+ * Implements hook_init().
+ */
+function views_init() {
+  global $app;
+  static $view_paths = array();
+  $route = '';
+  $all_views = views_get_all();
+  $all_router = $app->getContainer()->get('routeTitles');
+  foreach ($all_views as $view) {
+    if(isset($view['view_path']) && $view['view_path'] && !isset($all_router[$view['view_path']]) && !isset($view_paths[$view['view_path']])){
+      $view_paths[$view['view_path']] = $view['view_name'];
+      $route = $app->getRoutes()->map(['GET','POST'], $view['view_path'], '\Hunter\views\Controller\ViewsUIController::api_get_view');
+    }
+
+    if(is_object($route) && isset($view['view_permissions']) && $view['view_permissions']){
+      $app->addRoutePermission($route, $view['view_path'], $view['view_permissions']);
+    }
+  }
+}
+
+/**
+ * get view by path
+ */
+function views_get_view_bypath($path) {
+  $all_views = views_get_all();
+  foreach ($all_views as $view) {
+    if(isset($view['view_path']) && $view['view_path'] == $path){
+      return $view;
+    }
+    if($curpath = preg_replace("/\{[^\/]*\}/", "([^/]+)", $view['view_path'])){
+      if(preg_match("~^(?|".$curpath.")$~", $path, $matches)){
+        return $view;
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * get all views
+ */
+function views_get_all() {
+  $list = array();
+  $query = db_select('variable', 'v');
+  $query->fields('v', array('value'));
+  $query->condition(
+    db_or()
+      ->condition('name', 'views.view.%', 'LIKE')
+      ->condition('name', 'views_view_final_%', 'LIKE')
+  );
+  $query->orderBy('name');
+  $result = $query->execute()->fetchCol();
+
+  foreach ($result as $item) {
+    $list[] = unserialize($item);
+  }
+
+  return $list;
+}
+
+/**
+ * get all templates
+ */
+function views_get_templates() {
+  $list = array();
+  $result = db_select('variable', 'v')
+  ->fields('v')
+  ->condition('name', 'views-view-%', 'LIKE')
+  ->orderBy('name')
+  ->execute()->fetchAllAssoc('name');
+
+  foreach ($result as $name => $item) {
+    $list[$name] = unserialize($item->value);
+  }
+
+  return $list;
+}
+
+function _views_get_tables() {
+  $views_tables = array();
+
+  $viewsfiles = file_scan('module', '/.*(\w+).*\.views.yml/is', array('fullpath'=>true,'minDepth'=>2));
+  if(!empty($viewsfiles)){
+    foreach ($viewsfiles as $file) {
+      $yml = Yaml::decode(file_get_contents($file['file']));
+      $views_tables =  array_merge($yml['views'], $views_tables);
+    }
+  }
+  return $views_tables;
+}
+
+/**
+ * Embed a view using a PHP snippet.
+ */
+function views_get_view($parms, $preview = false) {
+  if($preview){
+    $view = variable_get('views_view_temp_'.$parms['view_machine_name']);
+  }else {
+    $view = variable_get('views_view_final_'.$parms['view_machine_name']);
+  }
+
+  if(isset($view['view_query']) && isset($view['view_template'])){
+    if($view['has_pager'] && !empty($view['view_pager'])){
+      $page = isset($_GET['page']) ? $_GET['page'] : 1;
+      $offset = (int)$view['view_pager']['offset'];
+      $number_perpage = 999999;
+
+      if($view['view_pager']['type'] != 'display_all'){
+        $offset = ((int)$page-1) * (int)$view['view_pager']['display'] + (int)$view['view_pager']['offset'];
+        $pager['page'] = $page;
+        $pager['size'] = (int)$view['view_pager']['display'];
+        $pager['total'] = COUNT(db_query($view['view_query'], $view['view_query_values'])->fetchAll());
+        $number_perpage = (int) $view['view_pager']['display'];
+
+        theme()->getEnvironment()->addGlobal('pager', $pager);
+      }
+
+      $view['view_query'] = $view['view_query']. ' LIMIT ' . $offset . ', ' . $number_perpage;
+    }
+
+    if(!empty($view['view_query_values']) && !empty($parms)){
+      foreach ($view['view_query_values'] as $key => $value) {
+        if(strpos($value,':::') !== false){
+          $view['view_query_values'][$key] = $parms['context_filter_value'];
+        }
+      }
+    }
+
+    $result = db_query($view['view_query'], $view['view_query_values'])->fetchAll();
+
+    if(!empty($result)) {
+      if($view['json_export'] == 'false'){
+        $data = array('viewdata' => $result, 'parms' => $parms);
+        if(count($result) == 1){
+          $final_result = (array) reset($result);
+          $data = array_merge($data, $final_result);
+        }
+        $output = theme()->render($view['view_template'], $data);
+        return $output;
+      }else{
+        return $result;
+      }
+    }
+  }
+  return false;
+}

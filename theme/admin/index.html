@@ -1,0 +1,44 @@
+@extends('admin.layout')
+
+@section('main-content')
+  <table class="table">
+    <tbody>
+        <tr>
+            <td style="width: 200px;">操作系统</td>
+            <td>{{ PHP_OS }}</td>
+        </tr>
+        <tr>
+            <td>运行环境</td>
+            <td>{{ $_SERVER["SERVER_SOFTWARE"] }}</td>
+        </tr>
+        <tr>
+            <td>WEB服务端口</td>
+            <td>{{ $_SERVER['SERVER_PORT'] }}</td>
+        </tr>
+        <tr>
+            <td>网站文档目录</td>
+            <td>{{ $_SERVER["DOCUMENT_ROOT"] }}</td>
+        </tr>
+        <tr>
+            <td>浏览器信息</td>
+            <td>{{ substr($_SERVER['HTTP_USER_AGENT'], 0, 40) }}</td>
+        </tr>
+        <tr>
+            <td>上传附件限制</td>
+            <td>{{ ini_get('upload_max_filesize') }}</td>
+        </tr>
+        <tr>
+            <td>PHP版本</td>
+            <td>{{ PHP_VERSION }}</td>
+        </tr>
+        <tr>
+            <td>服务器域名</td>
+            <td>{{ $_SERVER['SERVER_NAME'] }}</td>
+        </tr>
+        <tr>
+            <td>IP地址</td>
+            <td>{{ $_SERVER['REMOTE_ADDR'] }}</td>
+        </tr>
+    </tbody>
+  </table>
+@endsection

@@ -1,0 +1,55 @@
+user.user_list:
+  path: '/admin/user/list'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::user_list'
+    _title: 'user list'
+  requirements:
+    _permission: 'access admin page'
+
+user.user_add:
+  path: '/admin/user/add'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::user_add'
+    _title: 'user add'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+user.user_edit:
+  path: '/admin/user/edit/{uid}'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::user_edit'
+    _title: 'user edit'
+  requirements:
+    _permission: 'access admin page'
+
+user.user_update:
+  path: '/admin/user/update'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::user_update'
+    _title: 'user update'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+user.user_del:
+  path: '/admin/user/del/{uid}'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::user_del'
+    _title: 'user del'
+  requirements:
+    _permission: 'access admin page'
+
+user.api_user_list:
+  path: '/api/user/list'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::api_user_list'
+    _title: 'api user list'
+  requirements:
+    _permission: 'access admin page'
+
+user.api_get_user:
+  path: '/api/user/{uid}'
+  defaults:
+    _controller: '\Hunter\user\Controller\UserController::api_user_id'
+    _title: 'api get user byid'
+  requirements:
+    _permission: 'access admin page'

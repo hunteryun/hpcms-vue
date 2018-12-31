@@ -1,0 +1,194 @@
+<?php
+/**
+ * @file
+ * user database info.
+ */
+
+function user_schema() {
+  global $sessions;
+  $schema['user'] = array(
+    'description' => 'Stores user data.',
+    'fields' => array(
+      'uid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'ID of user.',
+      ),
+      'uuid' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'user uuid.',
+      ),
+      'username' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => 1,
+        'default' => '',
+        'description' => 'user username.',
+      ),
+      'password' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => 1,
+        'default' => '',
+        'description' => 'user password.',
+      ),
+      'nickname' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => false,
+        'default' => '',
+        'description' => 'user nickname.',
+      ),
+      'email' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => false,
+        'default' => '',
+        'description' => 'user email.',
+      ),
+      'phone' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => false,
+        'default' => '',
+        'description' => 'user phone.',
+      ),
+      'avatar' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => false,
+        'default' => '',
+        'description' => 'user avatar.',
+      ),
+      'sex' => array(
+        'description' => 'user sex.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ),
+      'city' => array(
+        'description' => 'user city.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => false,
+        'default' => '',
+      ),
+      'provider' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => 1,
+        'default' => 'web',
+        'description' => 'user provider.',
+      ),
+      'status' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => 1,
+        'default' => '',
+        'description' => 'user status.',
+      ),
+      'created' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the user was created.',
+      ),
+      'updated' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the user was updated.',
+      ),
+      'accessed' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the user was accessed.',
+      ),
+    ),
+    'primary key' => array('uid'),
+  );
+
+  $schema['user_role'] = array(
+    'description' => 'user with role.',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'ID of user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'rid' => array(
+        'description' => 'ID of role.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('uid', 'rid'),
+  );
+
+  if($sessions['class'] == 'Hunter\Core\Session\DbSession'){
+    $schema['sessions'] = array(
+      'description' => 'sessions.',
+      'fields' => array(
+        'sid' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => 1,
+          'default' => '',
+          'description' => 'session id.',
+        ),
+        'timestamp' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'The Unix timestamp session.',
+        ),
+        'session' => array(
+          'type' => 'text',
+          'size' => 'normal',
+          'description' => "session data.",
+        ),
+      ),
+      'primary key' => array('sid'),
+    );
+  }
+
+  return $schema;
+}
+
+/**
+ * Insert init user.
+ */
+function user_install() {
+  db_insert('user')
+    ->fields(array(
+      'username' => 'admin',
+      'password' => hunter_password_hash('123456'),
+      'email' => 'admin@site.com',
+      'avatar' => '/theme/admin/assets/avatar/0.jpg',
+      'nickname' => 'Hunter',
+      'status' => '1',
+      'created' => time(),
+      'updated' => time(),
+    ))
+    ->execute();
+
+  db_insert('user_role')
+    ->fields(array(
+      'uid' => '1',
+      'rid' => '1',
+    ))
+    ->execute();
+}

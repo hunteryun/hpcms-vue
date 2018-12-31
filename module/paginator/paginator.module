@@ -1,0 +1,27 @@
+<?php
+use JasonGrimes\Paginator;
+
+/**
+ * render pager html.
+ */
+function hunter_pager($pager, $prev_text = '', $next_text = '') {
+  if(!isset($pager['url']) || empty($pager['url'])){
+    if($_SERVER['REQUEST_URI'] != request_uri()){
+      if(strpos($_SERVER['REQUEST_URI'], '?') !== false && strpos($_SERVER['REQUEST_URI'], 'page=') !== false){
+        $pager['url'] = preg_replace('/page=(\d+)/','page=(:num)',$_SERVER['REQUEST_URI']);
+      }else {
+        $pager['url'] = $_SERVER['REQUEST_URI'].'&page=(:num)';
+      }
+    }else {
+      $pager['url'] = request_uri().'?page=(:num)';
+    }
+  }
+  $pager_out = new Paginator($pager['total'], $pager['size'], $pager['page'], $pager['url']);
+  if($prev_text){
+    $pager_out->setPreviousText($prev_text);
+  }
+  if($next_text){
+    $pager_out->setNextText($next_text);
+  }
+  return $pager_out;
+}

@@ -1,0 +1,13 @@
+safe_upload.upload_safe_upload:
+  path: '/admin/safe/upload'
+  defaults:
+    _controller: '\Hunter\safe_upload\Controller\UploadController::safe_upload'
+    _title: 'Safe Upload'
+  requirements:
+    _permission: 'access admin page'
+
+safe_upload.public_safe_upload:
+  path: '/public/safe/upload'
+  defaults:
+    _controller: '\Hunter\safe_upload\Controller\UploadController::safe_upload'
+    _title: 'Public Safe Upload'

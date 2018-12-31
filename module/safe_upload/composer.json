@@ -1,0 +1,6 @@
+{
+    "require": {
+        "rundiz/upload": "^2.0",
+        "gregwar/image": "^2.0"
+    }
+}

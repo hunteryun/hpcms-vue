@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ *
+ * 缓存
+ */
+
+use Hunter\cache\Plugin\HunterCache;
+
+/**
+ * 获取缓存类
+ *
+ * @param string $target
+ *   缓存目标
+ */
+function cache($target = 'file') {
+    global $default_cache;
+    if(!empty($default_cache)){
+      $target = $default_cache;
+    }
+    return HunterCache::getConnection($target);
+}

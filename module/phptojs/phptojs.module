@@ -1,0 +1,7 @@
+<?php
+
+use Hunter\phptojs\Plugin\PhptojsPlugin;
+
+function phptojs($namespace = 'window'){
+  return new PhptojsPlugin($namespace);
+}

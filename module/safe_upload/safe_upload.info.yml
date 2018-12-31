@@ -1,0 +1,5 @@
+name: Safe Upload
+type: module
+description: HunterPHP安全上传模块.
+core: 1.x
+package: Hunter

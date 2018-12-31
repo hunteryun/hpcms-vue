@@ -1,0 +1,40 @@
+role.role_list:
+  path: '/admin/role/list'
+  defaults:
+    _controller: '\Hunter\role\Controller\RoleController::role_list'
+    _title: 'role list'
+  requirements:
+    _permission: 'access admin page'
+  
+role.role_add:
+  path: '/admin/role/add'
+  defaults:
+    _controller: '\Hunter\role\Controller\RoleController::role_add'
+    _title: 'role add'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+  
+role.role_edit:
+  path: '/admin/role/edit/{rid}'
+  defaults:
+    _controller: '\Hunter\role\Controller\RoleController::role_edit'
+    _title: 'role edit'
+  requirements:
+    _permission: 'access admin page'
+  
+role.role_update:
+  path: '/admin/role/update'
+  defaults:
+    _controller: '\Hunter\role\Controller\RoleController::role_update'
+    _title: 'role update'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+  
+role.role_del:
+  path: '/admin/role/del/{rid}'
+  defaults:
+    _controller: '\Hunter\role\Controller\RoleController::role_del'
+    _title: 'role del'
+  requirements:
+    _permission: 'access admin page'
+  

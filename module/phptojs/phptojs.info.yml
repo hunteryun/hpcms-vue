@@ -1,0 +1,5 @@
+name: Php to js
+type: module
+description: Transform PHP data to JavaScript.
+core: 1.x
+package: Hunter

@@ -1,0 +1,40 @@
+<?php
+/**
+ * Implements hook_entity_info().
+ */
+function page_entity_info() {
+  return array(
+    'name' => 'page',
+    'primaryKey' => 'pid',
+    'baseTable'  => 'page',
+  );
+}
+
+/**
+ * get page by id
+ */
+function get_page_byid($pid) {
+    $page = db_select('page', 'p')
+      ->fields('p')
+      ->condition('p.pid', $pid)
+      ->execute()
+      ->fetchObject();
+
+    return $page;
+}
+
+/**
+ * get all page.
+ */
+function get_all_page($parms) {
+    $data = array();
+    $query = db_select('page', 'p')
+      ->fields('p')
+      ->extend('Pager')->size(20)->page($parms['page'])
+      ->orderBy('p.created', 'DESC');
+
+    $data['pager'] = $query->fetchPager();
+    $data['list'] = $query->execute()->fetchAll();
+
+    return $data;
+}

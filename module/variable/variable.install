@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * variable database info.
+ */
+
+function variable_schema() {
+  $schema['variable'] = array(
+    'description' => 'Named variable/value pairs created other module or theme. All variables are cached in memorys.',
+    'fields' => array(
+      'name' => array(
+        'description' => 'The name of the variable.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'value' => array(
+        'description' => 'The value of the variable.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+        'translatable' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  return $schema;
+}

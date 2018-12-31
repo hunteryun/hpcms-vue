@@ -1,0 +1,11 @@
+locale: zh_CN
+faker:
+  user:
+    username: faker-name
+    password: password
+    nickname: faker-firstName
+    email: faker-email
+    avatar: faker-imageUrl
+    status: 1
+    created: timenow
+    updated: timenow

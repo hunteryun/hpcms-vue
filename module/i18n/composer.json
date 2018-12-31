@@ -1,0 +1,5 @@
+{
+    "require": {
+        "romeoz/rock-i18n": "*"
+    }
+}

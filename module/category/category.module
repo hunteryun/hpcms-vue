@@ -1,0 +1,319 @@
+<?php
+
+use Hunter\Core\Category\Tree;
+
+/**
+ * 根据parentid取所有子类.
+ */
+function get_subcats_byid($pid = 0, $sub = true, $reset = false, $showall = false) {
+  $query = db_select('category', 'c')
+    ->fields('c')
+    ->condition('parentid', $pid)
+    ->orderBy('c.weight', 'ASC')
+    ->groupBy('c.cid');
+
+  if(!$showall){
+    $query->condition('status', 'yes');
+  }
+
+  $cats = $query->execute()->fetchAllAssoc('cid');
+
+  if($sub){
+    foreach ($cats as $key => $cat) {
+      if(!$reset){
+        $cats[$key]->sub = get_subcats_byid($cat->cid, true, false, $showall);
+      }else {
+        $cats += get_subcats_byid($cat->cid, true, true, $showall);
+      }
+    }
+  }
+
+  return $cats;
+}
+
+/**
+ * 根据id取分类名.
+ */
+function get_catname_byid($cid) {
+  $catname = db_select('category', 'c')
+    ->fields('c', array('name'))
+    ->condition('cid', $cid)
+    ->execute()
+    ->fetchField();
+
+  return $catname;
+}
+
+/**
+ * 根据machine_name取分类名.
+ */
+function get_catname_bymachine_name($machine_name) {
+  $catname = db_select('category', 'c')
+    ->fields('c', array('name'))
+    ->condition('machine_name', $machine_name)
+    ->execute()
+    ->fetchField();
+
+  return $catname;
+}
+
+/**
+ * 根据id取分类图片.
+ */
+function get_catimg_byid($cid) {
+  $catimage = db_select('category', 'c')
+    ->fields('c', array('cover'))
+    ->condition('cid', $cid)
+    ->execute()
+    ->fetchField();
+
+  return $catimage;
+}
+
+/**
+ * 根据id取machine_name.
+ */
+function get_catmachine_name_byid($cid) {
+  $machine_name = db_select('category', 'c')
+    ->fields('c', array('machine_name'))
+    ->condition('cid', $cid)
+    ->execute()
+    ->fetchField();
+
+  return $machine_name;
+}
+
+/**
+ * 根据machine_name取分类id.
+ */
+function get_catid_bymachine_name($machine_name, $parentid = '') {
+  $query = db_select('category', 'c')
+    ->fields('c', array('cid'))
+    ->condition('machine_name', $machine_name);
+
+  if(!empty($parentid)){
+    $query->condition('parentid', $parentid);
+  }
+
+  $cid = $query->execute()->fetchField();
+
+  return $cid;
+}
+
+/**
+ * 根据name取分类id.
+ */
+function get_catid_byname($name) {
+  $cid = db_select('category', 'c')
+    ->fields('c', array('cid'))
+    ->condition('name', $name)
+    ->execute()
+    ->fetchField();
+
+  return $cid;
+}
+
+/**
+ * 根据machine_name取分类.
+ */
+function get_cat_bymachine_name($machine_name) {
+  $cat = db_select('category', 'c')
+    ->fields('c')
+    ->condition('machine_name', $machine_name)
+    ->execute()
+    ->fetchObject();
+
+  if($cat){
+    $cat->sub = get_subcats_byid($cat->cid, true, false);
+    if(module_exists('seo')){
+      $cat->seoinfo = seo_getinfo_byrid('category', $cat->cid);
+    }
+  }
+
+  return $cat;
+}
+
+/**
+ * 根据id取父id.
+ */
+function get_parent_id_byid($cid) {
+  $parentid = db_select('category', 'c')
+    ->fields('c', array('parentid'))
+    ->condition('cid', $cid)
+    ->execute()
+    ->fetchField();
+
+  return $parentid;
+}
+
+/**
+ * 根据id取所有父id.
+ */
+function get_all_parentid($cid){
+    $pids = '';
+    $parentid = db_select('category', 'c')
+      ->fields('c', array('parentid'))
+      ->condition('cid', $cid)
+      ->execute()
+      ->fetchField();
+
+    if( $parentid != '' ){
+        $pids .= $parentid;
+        $npids = get_all_parentid($parentid);
+        if(isset($npids)){
+          $pids .= ','.$npids;
+        }
+    }
+    return $pids;
+}
+
+/**
+ * 根据ids取所有父ids.
+ */
+function get_all_parentids($cids, $output = 'string'){
+    $all_pids = [];
+    $cid_array = explode(',', $cids);
+    foreach ($cid_array as $key => $cid) {
+      $all_pids[$key] = $cid.','.get_all_parentid($cid);
+    }
+
+    $res = [];
+    foreach ($all_pids as $i => $v) {
+      $res = array_merge($res, array_filter(explode(',', $v)));
+    }
+
+    $res = array_keys(array_flip($res));
+    sort($res);
+
+    return $output == 'string' ? implode(',', $res) : $res;
+}
+
+/**
+ * 根据id取根父id.
+ */
+function get_top_parentid_byid($cid) {
+  $parentid = db_select('category', 'c')
+    ->fields('c', array('parentid'))
+    ->condition('cid', $cid)
+    ->execute()
+    ->fetchField();
+
+  if($parentid == '1'){
+    return $cid;
+  }
+
+  if(get_parent_id_byid($parentid) != '1'){
+    $parentid = get_top_parentid_byid($parentid);
+  }
+
+  return $parentid;
+}
+
+/**
+ * 获取栏目通过id
+ */
+function get_category_byid($cid) {
+    $cat = db_select('category', 'c')
+      ->fields('c')
+      ->condition('cid', $cid)
+      ->execute()
+      ->fetchObject();
+
+    if($cat){
+      $cat->sub = get_subcats_byid($cat->cid, true, false);
+      if(module_exists('seo')){
+        $cat->seoinfo = seo_getinfo_byrid('category', $cat->cid);
+      }
+    }
+
+    return $cat;
+}
+
+/**
+ * 取所有推荐的子类.
+ */
+function get_sub_promoted_cats_byid($pid = 0, $sub = true, $reset = false) {
+  $cats = db_select('category', 'c')
+    ->fields('c')
+    ->condition('parentid', $pid)
+    ->condition('promoted', 1)
+    ->condition('status', 'yes')
+    ->groupBy('c.cid')
+    ->execute()
+    ->fetchAllAssoc('cid');
+
+  if($sub){
+    foreach ($cats as $key => $cat) {
+      if(!$reset){
+        $cats[$key]->sub = get_sub_promoted_cats_byid($cat->cid, true, false);
+      }else {
+        $cats += get_sub_promoted_cats_byid($cat->cid, true, true);
+      }
+    }
+  }
+
+  return $cats;
+}
+
+/**
+ * 获取栏目树options通过id
+ */
+function get_tree_options($cid, $selected, $multiple = FALSE) {
+    $tree = new Tree;
+    $cats_options = '';
+    $category_list = get_subcats_byid($cid, true, true);
+
+    if($selected == $cid){
+      $gen_option = '<option value="'.$cid.'" selected> '.get_catname_byid($cid).' </option>';
+    }else {
+      $gen_option = '<option value="'.$cid.'"> '.get_catname_byid($cid).' </option>';
+    }
+
+    $str = "<option value='\$a->cid' \$selected> \$spacer \$a->name </option>";
+
+    if($category_list){
+      if($multiple){
+        $cats_options = $tree->init($category_list)->get_tree_multi($cid, $str, $selected);
+      }else {
+        $cats_options = $tree->init($category_list)->get_tree($cid, $str, $selected);
+      }
+
+    }
+
+    return $gen_option.$cats_options;
+}
+
+function category_tree_output($tree) {
+  $html = '';
+  $parent_class = '';
+  foreach($tree as $t) {
+    if($t->parentid == '1'){
+      $parent_class = 'nav navbar-nav';
+    }
+    if(empty($t->sub)) {
+      if(!empty($t->link)){
+        if(request_uri() == $t->link || (strpos(request_uri(),'news/') !== false && $t->cid == '5')){
+          $html .= '<li class="active"><a href="'.$t->link.'">'.$t->name.'</a></li>';
+        }else {
+          $html .= '<li><a href="'.$t->link.'">'.$t->name.'</a></li>';
+        }
+      }else{
+        $html .= '<li><span>'.$t->name.'</span></li>';
+      }
+    } else {
+      if(!empty($t->link)){
+        if(request_uri() == $t->link){
+          $html .= '<li class="active menuparent layhide"><a href="'.$t->link.'">'.$t->name.'</a>';
+        }else {
+          $html .= '<li class="menuparent layhide"><a href="'.$t->link.'">'.$t->name.'</a>';
+        }
+      }else{
+        $html .= '<li class="menuparent layhide"><span>'.$t->name.'</span>';
+      }
+      $html .= category_tree_output($t->sub);
+      $html = $html.'</li>';
+    }
+  }
+
+  return $html ? '<ul class="'.$parent_class.'">'.$html.'</ul>' : $html ;
+}

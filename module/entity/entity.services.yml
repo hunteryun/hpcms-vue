@@ -1,0 +1,4 @@
+services:
+  entity.entity:
+    class: 'Hunter\entity\Plugin\Entity'
+

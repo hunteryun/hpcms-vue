@@ -1,0 +1,7 @@
+name: Configuration Manager
+type: module
+description: Allows administrators to manage configuration.
+core: 1.x
+package: Hunter
+dependencies:
+  - variable

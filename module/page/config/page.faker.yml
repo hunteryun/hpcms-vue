@@ -1,0 +1,9 @@
+locale: zh_CN
+faker:
+  page:
+    title: faker-name
+    content: faker-text
+    uid: 1
+    status: 1
+    created: timenow
+    updated: timenow

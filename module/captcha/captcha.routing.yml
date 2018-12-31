@@ -1,0 +1,5 @@
+captcha.captcha_make_captcha:
+  path: '/captcha/make'
+  defaults:
+    _controller: '\Hunter\captcha\Controller\CaptchaController::make_captcha'
+    _title: 'Make Captcha'

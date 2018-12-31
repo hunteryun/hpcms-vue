@@ -1,0 +1,135 @@
+views.viewsui_views_list:
+  path: '/admin/views'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_list'
+    _title: 'Views'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_add_view:
+  path: '/admin/views/add'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_add_view'
+    _title: 'Add view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_settings:
+  path: '/admin/views/settings'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_settings'
+    _title: 'Views settings'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_view_export:
+  path: '/admin/views/view/{view}/export'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_view_export'
+    _title: 'Export view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_view_import:
+  path: '/admin/views/view/import'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_view_import'
+    _title: 'Import view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_view_edit:
+  path: '/admin/views/view/{view}/edit'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_view_edit'
+    _title: 'Edit view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_view_copy:
+  path: '/admin/views/view/{view}/copy'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_view_copy'
+    _title: 'Copy view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_views_view_delete:
+  path: '/admin/views/view/{view}/delete'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::views_view_delete'
+    _title: 'Delete view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_machine_name:
+  path: '/admin/api/machine-name'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_machine_name'
+    _title: 'Api get machinename'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_tables:
+  path: '/admin/api/tables'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_tables'
+    _title: 'Api get tables'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_filter_ops:
+  path: '/admin/api/filter-ops'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_filter_ops'
+    _title: 'Api get filter ops'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_templates:
+  path: '/admin/api/templates'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_templates'
+    _title: 'Api get templates'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_ge_query_result:
+  path: '/admin/api/query-result'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_query_result'
+    _title: 'Api get query result'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_ge_template_content:
+  path: '/admin/api/get-template-content'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_ge_template_content'
+    _title: 'Api get template content'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_permissions:
+  path: '/admin/api/permissions'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_permissions'
+    _title: 'Api get permissions'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_save_view:
+  path: '/admin/api/save-view'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_save_view'
+    _title: 'Api save view'
+  requirements:
+    _permission: 'access admin page'
+
+views.viewsui_api_get_views_setting:
+  path: '/admin/api/views/setting'
+  defaults:
+    _controller: '\Hunter\views\Controller\ViewsUIController::api_get_views_setting'
+    _title: 'Api get views setting'
+  requirements:
+    _permission: 'access admin page'

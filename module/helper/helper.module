@@ -1,0 +1,79 @@
+<?php
+
+use JBZoo\Utils\Arr;
+use JBZoo\Utils\Cli;
+use JBZoo\Utils\Dates;
+use JBZoo\Utils\Filter;
+use JBZoo\Utils\FS;
+use JBZoo\Utils\Http;
+use JBZoo\Utils\Image;
+use JBZoo\Utils\Ser;
+use JBZoo\Utils\Slug;
+use JBZoo\Utils\Sys;
+use JBZoo\Utils\Url;
+use JBZoo\Utils\Vars;
+use JBZoo\Utils\Email;
+use JBZoo\Utils\Timer;
+use JBZoo\Utils\Str;
+use JBZoo\Utils\Env;
+
+/**
+ * Returns the helper.
+ */
+function helper($type = 'string') {
+  // Available type: array, string, date, slug, serialize, image,
+  // http, file, filter, cli, system, url, vars, email, timer, env
+  switch ($type)
+  {
+  case 'array':
+    return new Arr;
+    break;
+  case 'cli':
+    return new Cli;
+    break;
+  case 'date':
+    return new Dates;
+    break;
+  case 'filter':
+    return new Filter;
+    break;
+  case 'file':
+    return new FS;
+    break;
+  case 'http':
+    return new Http;
+    break;
+  case 'image':
+    return new Image;
+    break;
+  case 'serialize':
+    return new Ser;
+    break;
+  case 'slug':
+    return new Slug;
+    break;
+  case 'system':
+    return new Sys;
+    break;
+  case 'url':
+    return new Url;
+    break;
+  case 'vars':
+    return new Vars;
+    break;
+  case 'email':
+    return new Email;
+    break;
+  case 'timer':
+    return new Timer;
+    break;
+  case 'env':
+    return new Env;
+    break;
+  case 'string':
+    return new Str;
+    break;
+  default:
+    return new Str;
+  }
+}

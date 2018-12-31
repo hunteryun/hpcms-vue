@@ -1,0 +1,70 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>网站信息设置</title>
+    <base href="{{ base_path() }}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <link rel="stylesheet" href="/theme/admin/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/theme/admin/assets/css/style.css">
+    <script src="/theme/admin/assets/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="pd-20">
+      <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+          @foreach($allforms as $key => $fm)
+          <li class="{{ $key == 0 ? 'layui-this' : '' }}">{{ $fm['name'] }}</li>
+          @endforeach
+        </ul>
+        <div class="layui-tab-content">
+          @foreach($allforms as $key => $fm)
+          <div class="layui-tab-item {{ $key == 0 ? 'layui-show' : '' }}">
+            {!! hunter_form_render('layui', $fm['fields']) !!}
+          </div>
+          @endforeach
+        </div>
+      </div>
+
+    </div>
+    <script src="/theme/admin/assets/layui/layui.js"></script>
+    <script>
+        layui.use(['form', 'layedit', 'layer', 'upload', 'element'], function() {
+            var form = layui.form;
+            var layedit = layui.layedit;
+            var upload = layui.upload;
+            var layer = layui.layer;
+            var element = layui.element;
+
+            //监听提交
+            form.on('submit(site_configAdd)', function(data) {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/site-config", //后台程序地址
+                    data: data.field, //需要post的数据
+                    success: function(msg) {
+                        if (!msg) {
+                            layer.msg('保存失败', {
+                                icon: 5
+                            });
+                        } else {
+                          layer.msg('保存成功!', {
+                              icon: 1,
+                              time: 1000,
+                              shade: 0.1
+                          }, function() {
+                              location.reload();
+                          });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

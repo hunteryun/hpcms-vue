@@ -1,0 +1,5 @@
+ueditor.ueditor_server:
+  path: '/ueditor/server'
+  defaults:
+    _controller: '\Hunter\ueditor\Controller\UeditorController::ueditor_server'
+    _title: 'Ueditor Server'

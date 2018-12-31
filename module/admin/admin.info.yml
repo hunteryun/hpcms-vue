@@ -1,0 +1,5 @@
+name: Admin
+type: module
+description: Provide a back-end UI.
+core: 1.x
+package: Custom

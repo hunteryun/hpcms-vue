@@ -1,0 +1,11 @@
+access admin page:
+  title: 'Access admin page'
+  _callback: 'Hunter\admin\AdminPermission'
+
+csrf_check:
+  title: 'Check CSRF'
+  _callback: 'Hunter\admin\CsrfPermission'
+
+admin system:
+  title: 'Admin system'
+  _callback: 'Hunter\admin\AdminSystemPermission'

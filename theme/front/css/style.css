@@ -1,0 +1,12 @@
+@charset "UTF-8";
+.app {position: fixed; left: 50%; top: 20%; z-index: 11; margin-left: -400px; color: #374762;}
+.links {text-align: center; padding-top: 20px;}
+.btn {border-radius: 2px; padding: 8px 16px; margin:0 5px; font-weight: 700; letter-spacing: .04em; outline: 0!important;background-color: #f28d1a; color: #fff; background-color: #398439; border-color: #255625; text-decoration: none;}
+.btn-start {background-color: #f28d1a!important;}
+.btn-doc {background-color: #d9534f; border-color: #d43f3a;}
+
+.browser-window {display: block; margin: 75px auto 15px; border: none; box-shadow: 0px 2px 25px rgba(0, 0, 0, 0.25);}
+.browser-window .top-bar {height: 30px; border-radius: 4px 4px 0 0; border-top: thin solid #eaeae9; border-bottom: thin solid #dfdfde; background: #ebebeb; font-size: 14px; padding-left: 15px; line-height: 30px; color: #aeaeae}
+.browser-window .window-content {margin: 0; width: 100%; min-height: 90%; display: inline-block; padding: 20px; border-radius: 0 0 4px 4px; font-family: Consolas, Monaco, 'Andale Mono', monospace;}
+.window-content h3 {font-size: 12px; font-weight: normal;}
+.window-content .des {color: #999; margin-bottom: 15px;}

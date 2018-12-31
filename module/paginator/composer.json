@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jasongrimes/paginator": "~1.0"
+    }
+}

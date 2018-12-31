@@ -1,0 +1,61 @@
+admin.admin_admin:
+  path: '/admin'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_login'
+    _title: 'Admin Login'
+
+admin.admin_admin_login:
+  path: '/admin/login'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_login'
+    _title: 'Admin Login'
+  requirements:
+    _permission: ['captcha', 'csrf_check']
+
+admin.admin_admin_index:
+  path: '/admin/index'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_index'
+    _title: 'Admin Index'
+  requirements:
+    _permission: 'access admin page'
+
+admin.admin_admin_logout:
+  path: '/admin/logout'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_logout'
+    _title: 'Admin Logout'
+  requirements:
+    _permission: 'access admin page'
+
+admin.admin_database_backup:
+  path: '/admin/database/backup'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_database_backup'
+    _title: 'Database Backup'
+  requirements:
+    _permission: 'access admin page'
+
+admin.admin_database_export:
+  path: '/admin/database/export'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_database_export'
+    _title: 'Database Export'
+  requirements:
+    _permission: 'access admin page'
+
+admin.api_get_machine_name:
+  path: '/admin/api/machine-name'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::api_get_machine_name'
+    _title: 'Api get machinename'
+  requirements:
+    _permission: 'access admin page'
+
+admin.admin_site_config:
+  path: '/admin/site-config'
+  defaults:
+    _controller: '\Hunter\admin\Controller\AdminController::admin_site_config'
+    _title: 'site config'
+  requirements:
+    _permission: 'access admin page'

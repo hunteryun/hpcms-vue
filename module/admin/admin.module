@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * 格式化字节大小
+ * @param  number $size      字节数
+ * @param  string $delimiter 数字和单位分隔符
+ * @return string            格式化后的带单位的大小
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function format_bytes($size, $delimiter = '') {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
+    return round($size, 2) . $delimiter . $units[$i];
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function admin_tokens($type, $tokens, array $data = [], array $options = []) {
+  global $base_url;
+  $replacements = array();
+  if ($type == 'site') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'name':
+          $replacements[$original] = 'easy-core.com';
+          break;
+        case 'url':
+          $replacements[$original] = $base_url;
+          break;
+        case 'logo':
+          $replacements[$original] = $base_url.'/theme/hunter/img/logo.png';
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}

@@ -1,0 +1,38 @@
+<?php
+
+use Hunter\Core\Serialization\Yaml;
+
+function views_install() {
+  $pattern = '/^' . preg_quote('views.view.', '/') . '.*' . preg_quote('.yml', '/') . '$/';
+  $allviews = file_scan('module', $pattern, array('minDepth'=>2));
+
+  if(!empty($allviews)){
+    foreach ($allviews as $viewfile) {
+      if(file_exists($viewfile['file'])){
+        $info = Yaml::decode(file_get_contents($viewfile['file']));
+        variable_set($viewfile['basename'], $info);
+      }
+    }
+  }
+
+  $pattern = '/^' . preg_quote('views-view-', '/') . '.*' . preg_quote('.html', '/') . '$/';
+  $alltemplates = array_merge(file_scan('module', $pattern, array('minDepth'=>2)), file_scan('theme', $pattern, array('minDepth'=>2)));
+
+  if(!empty($alltemplates)){
+    foreach ($alltemplates as $template) {
+      if(file_exists($template['file'])){
+        variable_set($template['basename'], $template['file']);
+      }
+    }
+  }
+}
+
+function views_uninstall() {
+  db_delete('variable')
+    ->condition(db_or()
+      ->condition('name', 'views.view.%', 'LIKE')
+      ->condition('name', 'views_view_%', 'LIKE')
+      ->condition('name', 'views-view-%', 'LIKE')
+    )
+    ->execute();
+}

@@ -1,0 +1,38 @@
+<?php
+/**
+ * get role by id
+ */
+function get_role_byid($rid) {
+    $role = db_select('role', 'r')
+      ->fields('r')
+      ->condition('r.rid', $rid)
+      ->execute()
+      ->fetchObject();
+
+    return $role;
+}
+
+/**
+ * get role name by id
+ */
+function get_rolename_byid($rid) {
+    $rolename = db_select('role', 'r')
+      ->fields('r', array('name'))
+      ->condition('rid', $rid)
+      ->execute()
+      ->fetchField();
+
+    return $rolename;
+}
+
+/**
+ * get all role.
+ */
+function get_all_role() {
+    $roles = db_select('role', 'r')
+      ->fields('r')
+      ->execute()
+      ->fetchAll();
+
+    return $roles;
+}

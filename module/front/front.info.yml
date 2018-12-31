@@ -1,0 +1,5 @@
+name: front
+type: module
+description: The all front page.
+core: 1.x
+package: Hunter

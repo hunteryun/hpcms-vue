@@ -1,0 +1,5 @@
+name: Variable
+type: module
+description: Provide the variable system.
+core: 1.x
+package: Hunter

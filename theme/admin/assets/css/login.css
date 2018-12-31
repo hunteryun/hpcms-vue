@@ -1,0 +1,58 @@
+.home-bg {
+  position: absolute;
+  z-index: -1;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow: hidden;
+  background: url(../images/bg.jpg) no-repeat fixed;
+  background-size: cover;
+}
+.home-bg  div {
+    position: absolute;
+    z-index: 1;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow: hidden;
+}
+.home-login {
+    z-index: 88;
+    padding:10px 25px;
+    width:360px;
+    margin:80px auto 0px auto;
+    background:#f8f8f8;
+    background:rgba(230,230,255,0.4);
+    z-index: 8;
+    border:1px solid #b6bfc9;
+    border-radius: 4px;
+    opacity:0.9;
+}
+.home-login h3 {
+    font-size:20px;
+    margin: 10px 0px 20px 0px;
+    font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.45;
+    color: #4b5a70;
+}
+.home-login .captcha {
+  width: 140px;
+}
+.home-login .captcha-input {
+  width: 136px;
+}
+.home-login .el-input-group__prepend {
+  width: 40px;
+}
+.home-login .el-button--primary {
+  width: 100%;
+}
+.form-captcha img {
+  vertical-align: middle;
+}
+.form-captcha .el-input-group__append {
+  padding: 0;
+}

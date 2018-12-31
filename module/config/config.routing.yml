@@ -1,0 +1,23 @@
+config.export_full:
+  path: '/admin/config/full/export'
+  defaults:
+    _controller: '\Hunter\config\ConfigExportForm'
+    _title: 'Export'
+
+config.import_full:
+  path: '/admin/config/full/import'
+  defaults:
+    _controller: '\Hunter\config\ConfigImportForm'
+    _title: 'Import'
+
+config.import_single:
+  path: '/admin/config/single/import'
+  defaults:
+    _title: 'Single import'
+    _controller: '\Hunter\config\ConfigSingleImportForm'
+
+config.export_single:
+  path: '/admin/config/single/export/{config_type}/{config_name}'
+  defaults:
+    _title: 'Single export'
+    _controller: '\Hunter\config\ConfigSingleExportForm'

@@ -1,0 +1,5 @@
+name: page
+type: module
+description: Provide single page.
+core: 1.x
+package: Custom

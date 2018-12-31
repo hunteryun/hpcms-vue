@@ -1,0 +1,39 @@
+page.page_list:
+  path: '/admin/page/list'
+  defaults:
+    _controller: '\Hunter\page\Controller\PageController::page_list'
+    _title: 'page list'
+  requirements:
+    _permission: 'access admin page'
+
+page.page_add:
+  path: '/admin/page/add'
+  defaults:
+    _controller: '\Hunter\page\Controller\PageController::page_add'
+    _title: 'page add'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+page.page_edit:
+  path: '/admin/page/edit/{pid}'
+  defaults:
+    _controller: '\Hunter\page\Controller\PageController::page_edit'
+    _title: 'page edit'
+  requirements:
+    _permission: 'access admin page'
+
+page.page_update:
+  path: '/admin/page/update'
+  defaults:
+    _controller: '\Hunter\page\Controller\PageController::page_update'
+    _title: 'page update'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+page.page_del:
+  path: '/admin/page/del/{pid}'
+  defaults:
+    _controller: '\Hunter\page\Controller\PageController::page_del'
+    _title: 'page del'
+  requirements:
+    _permission: 'access admin page'

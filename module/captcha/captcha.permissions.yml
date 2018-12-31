@@ -1,0 +1,4 @@
+captcha:
+  title: 'Captcha'
+  _callback: 'Hunter\captcha\CaptchaPermission'
+

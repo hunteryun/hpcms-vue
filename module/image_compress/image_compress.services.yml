@@ -1,0 +1,3 @@
+services:
+  image_compress.compress_service:
+    class: Hunter\image_compress\Plugin\CompressPlugin

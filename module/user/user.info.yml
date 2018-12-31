@@ -1,0 +1,7 @@
+name: user
+type: module
+description: HunterPHP的用户模块.
+core: 1.x
+package: Custom
+dependencies:
+  - role

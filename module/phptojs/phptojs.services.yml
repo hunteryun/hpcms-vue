@@ -1,0 +1,4 @@
+services:
+  phptojs.phptojs:
+    class: 'Hunter\phptojs\Plugin\PhptojsPlugin'
+

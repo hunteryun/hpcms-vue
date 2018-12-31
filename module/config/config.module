@@ -1,0 +1,10 @@
+<?php
+
+use Hunter\config\Plugin\ConfigManager;
+
+/**
+ * Returns the config manager.
+ */
+function config($name) {
+  return new ConfigManager($name);
+}

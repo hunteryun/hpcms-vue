@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+ <head lang="en">
+  <meta charset="UTF-8" />
+  <title>管理中心登录</title>
+  <base href="{{ base_path() }}">
+  <link rel="stylesheet" href="/theme/admin/assets/css/element.css">
+  <link rel="stylesheet" href="/theme/admin/assets/css/login.css">
+ </head>
+ <body>
+   <div id="app">
+     <div class="home-bg"></div>
+     <div class="home-login">
+       <h3>欢迎来到猎人管理中心</h3>
+       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" :hide-required-asterisk="true" class="demo-ruleForm">
+         <el-form-item prop="username">
+           <el-input type="text" v-model="ruleForm.username" @keyup.enter.native="submitForm('ruleForm')" autocomplete="off">
+             <template slot="prepend">账号</template>
+           </el-input>
+         </el-form-item>
+         <el-form-item prop="password">
+           <el-input type="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')" autocomplete="off">
+             <template slot="prepend">密码</template>
+           </el-input>
+         </el-form-item>
+         <el-form-item prop="_captcha" class="form-captcha">
+           <el-input type="text" v-model="ruleForm._captcha" @keyup.enter.native="submitForm('ruleForm')" autocomplete="off">
+             <template slot="prepend">验证码</template>
+             <template slot="append">{!! captcha_img() !!}</template>
+           </el-input>
+         </el-form-item>
+         <el-form-item>
+           <el-button type="primary" @click="submitForm('ruleForm')">立即登录</el-button>
+         </el-form-item>
+         {!! csrf_field() !!}
+       </el-form>
+     </div>
+   </div>
+  <script src="/theme/admin/assets/js/vue.js"></script>
+  <script src="/theme/admin/assets/js/element.js"></script>
+  <script src="/theme/admin/assets/js/jquery-1.7.2.min.js"></script>
+  <script>
+   new Vue({
+       el: "#app",
+       data: {
+           ruleForm : {
+             username : "",
+             password : "",
+             _captcha : "",
+             _csrf_token_uuid: "",
+             _csrf_token: ""
+           },
+           rules : {
+             username : [
+                { required: true, message: '请输入用户名', trigger: 'blur' }
+             ],
+             password: [
+               { required: true, message: '请输入密码', trigger: 'blur' }
+             ],
+             _captcha : [
+                { required: true, message: '请输入验证码', trigger: 'blur' },
+                { min: 4, message: '至少4位字符', trigger: 'blur' }
+             ],
+           }
+       },
+       mounted: function () {
+        this.setCSRF();
+       },
+       methods: {
+         submitForm : function(formName){
+           var vm = this;
+           vm.$refs[formName].validate((valid) => {
+             if (valid) {
+               $.ajax({
+                   type: "POST",
+                   url: "/admin/login", //后台程序地址
+                   data: this.ruleForm, //需要post的数据
+                   success: function(res) {
+                     if (res.code == 1) {
+                       vm.$notify.error({
+                         title: '提示',
+                         message: res.msg,
+                         type: 'error'
+                       });
+                     } else {
+                        vm.$notify({
+                          title: '提示',
+                          message: res.msg,
+                          duration: 1000,
+                          type: 'success',
+                          onClose: function() {
+                            window.location.href = "/admin/index";
+                          }
+                        });
+                     }
+                  }
+               });
+             }
+           });
+         },
+         resetForm : function(formName){
+           this.$refs[formName].resetFields();
+         },
+         setCSRF : function(){
+           this.ruleForm._csrf_token_uuid = $("#_csrf_token_uuid").val();
+           this.ruleForm._csrf_token = $("#_csrf_token").val();
+         }
+       }
+   });
+  </script>
+ </body>
+</html>

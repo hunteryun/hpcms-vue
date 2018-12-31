@@ -1,0 +1,5 @@
+name: role
+type: module
+description: 为用户提供角色.
+core: 1.x
+package: Custom

@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Returns a persistent variable.
+ */
+function variable_get($name, $default = NULL) {
+  $var = db_select('variable', 'v')
+          ->fields('v', array('value'))
+          ->condition('name', $name)
+          ->execute()
+          ->fetchField();
+
+  return !empty($var) ? unserialize($var) : $default;
+}
+
+/**
+ * Sets a persistent variable.
+ */
+function variable_set($name, $value) {
+  db_merge('variable')->key(array('name' => $name))->fields(array('value' => serialize($value)))->execute();
+
+  return true;
+}
+
+/**
+ * Unsets a persistent variable.
+ */
+function variable_del($name) {
+  db_delete('variable')
+    ->condition('name', $name)
+    ->execute();
+
+  return true;
+}

@@ -1,0 +1,5 @@
+name: Cache
+type: module
+description: stores data to cache.
+core: 1.x
+package: Hunter

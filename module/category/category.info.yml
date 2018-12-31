@@ -1,0 +1,5 @@
+name: Category
+type: module
+description: Provide a category management.
+core: 1.x
+package: Custom

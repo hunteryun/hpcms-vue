@@ -1,0 +1,26 @@
+<?php
+
+use rock\i18n\i18n;
+
+/**
+ * Translates a string to the current language or to a given language.
+ */
+function t($string, $args = array()) {
+  $default_language = language_get();
+  $lang_paths = array();
+  $langs = file_scan('sites/langs', '/.*(\w+).*\.php/is', array('fullpath'=>true,'minDepth'=>2));
+  if(!empty($langs)){
+    foreach ($langs as $l) {
+      $lang_paths[basename($l['dirname'])] = array($l['file']);
+    }
+  }
+
+  try {
+    $i18n = new i18n;
+    $paths = $lang_paths;
+    $i18n->addDicts($paths);
+    return i18n::t($string, $args, null, $default_language);
+  } catch (\Exception $e) {
+    return $string;
+  }
+}

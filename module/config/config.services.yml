@@ -1,0 +1,3 @@
+services:
+  config.config_plugin:
+    class: Hunter\config\Plugin\ConfigManager

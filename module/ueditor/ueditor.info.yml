@@ -1,0 +1,5 @@
+name: Ueditor
+type: module
+description: Ueditor for HunterPHP.
+core: 1.x
+package: Hunter

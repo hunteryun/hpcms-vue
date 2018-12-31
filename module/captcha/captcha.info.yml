@@ -1,0 +1,5 @@
+name: Captcha
+type: module
+description: Captcha generator.
+core: 1.x
+package: Hunter

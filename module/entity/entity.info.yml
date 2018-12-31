@@ -1,0 +1,5 @@
+name: Entity
+type: module
+description: Provide the entity api.
+core: 1.x
+package: Hunter

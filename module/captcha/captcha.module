@@ -1,0 +1,23 @@
+<?php
+
+use Gregwar\Captcha\CaptchaBuilder;
+
+/**
+ * 输出验证码图片
+ * @param string $class 验证码的html类名
+ * @return string
+ */
+function captcha_img($class = '') {
+    return sprintf('<img class="%1$s" src="%2$s" onclick="this.src=\'%2$s?ver=\'+new Date().getTime()" title="点击刷新验证码" />', $class, '/captcha/make');
+}
+
+/**
+ * 输出验证码文本
+ * @return string
+ */
+function captcha_inline_img($class = '') {
+  $builder = new CaptchaBuilder;
+  $builder->build($width = 100, $height = 38);
+  session()->set('_captcha', $builder->getPhrase());
+  return $builder->inline();
+}

@@ -1,0 +1,48 @@
+<?php
+/**
+ * @file
+ * role database info.
+ */
+
+function role_schema() {
+  $schema['role'] = array(
+    'description' => 'Stores role data.',
+    'fields' => array(
+      'rid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'ID of role.',
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 60,
+        'not null' => 1,
+        'default' => '',
+        'description' => 'role name.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => 1,
+        'default' => 0,
+        'description' => 'role weight.',
+      ),
+    ),
+    'primary key' => array('rid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Insert init role.
+ */
+function role_install() {
+  db_insert('role')
+    ->fields(array(
+      'name' => '超级管理员',
+      'weight' => 0,
+    ))
+    ->execute();
+}

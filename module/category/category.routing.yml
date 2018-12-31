@@ -1,0 +1,47 @@
+category.category_category_list:
+  path: '/admin/category/list'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_list'
+    _title: 'Category List'
+  requirements:
+    _permission: 'access admin page'
+
+category.category_category_add:
+  path: '/admin/category/add'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_add'
+    _title: 'Category Add'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+category.category_category_subadd:
+  path: '/admin/category/add/{cid}'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_add'
+    _title: 'Category Add'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+category.category_category_edit:
+  path: '/admin/category/edit/{cid}'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_edit'
+    _title: 'Category Edit'
+  requirements:
+    _permission: 'access admin page'
+
+category.category_category_update:
+  path: '/admin/category/update'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_update'
+    _title: 'Category Update'
+  requirements:
+    _permission: ['csrf_check', 'access admin page']
+
+category.category_category_del:
+  path: '/admin/category/del/{cid}'
+  defaults:
+    _controller: '\Hunter\category\Controller\CategoryController::category_del'
+    _title: 'Category Delete'
+  requirements:
+    _permission: 'access admin page'

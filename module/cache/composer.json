@@ -1,0 +1,5 @@
+{
+    "require": {
+        "desarrolla2/cache":  "~2.0"
+    }
+}

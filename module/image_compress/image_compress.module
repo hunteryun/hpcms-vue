@@ -1,0 +1,8 @@
+<?php
+
+use Hunter\image_compress\Plugin\CompressPlugin;
+
+function hunter_compress_image($file_url, $new_image, $quality) {
+  $image_compress = new CompressPlugin($file_url, $new_image, $quality);
+  return $image_compress->compress_image();
+}

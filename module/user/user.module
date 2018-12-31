@@ -1,0 +1,155 @@
+<?php
+/**
+ * get user by id
+ */
+function get_user_byid($uid) {
+    $user = db_select('user', 'u')
+      ->fields('u')
+      ->condition('u.uid', (int) $uid)
+      ->execute()
+      ->fetchObject();
+
+    if(!empty($user)){
+      attach_role($user);
+    }
+
+    return $user;
+}
+
+/**
+ * attach role info
+ */
+function attach_role(&$result) {
+  if(is_object($result)){
+    $result->role = db_query("SELECT ur.rid, r.name FROM {user_role} AS ur LEFT JOIN {role} AS r ON r.rid=ur.rid WHERE ur.uid = :uid", array(':uid' => $result->uid))->fetchAllAssoc('rid');
+  }else{
+    foreach($result as $item){
+      $item->role = db_query("SELECT ur.rid, r.name FROM {user_role} AS ur LEFT JOIN {role} AS r ON r.rid=ur.rid WHERE ur.uid = :uid", array(':uid' => $item->uid))->fetchAllAssoc('rid');
+    }
+  }
+}
+
+/**
+ * get all user.
+ */
+function get_all_user() {
+    $users = db_select('user', 'u')
+      ->fields('u')
+      ->execute()
+      ->fetchAll();
+
+    attach_role($users);
+
+    return $users;
+}
+
+/**
+ * 根据用户名取id.
+ */
+function get_userid_byname($name) {
+  $uid= db_select('user', 'u')
+    ->fields('u', array('uid'))
+    ->condition('username', $name)
+    ->execute()
+    ->fetchField();
+
+  return $uid;
+}
+
+/**
+ * 根据id取用户名.
+ */
+function get_username_byid($uid) {
+  $username = db_select('user', 'u')
+    ->fields('u', array('username'))
+    ->condition('uid', $uid)
+    ->execute()
+    ->fetchField();
+
+  return $username;
+}
+
+/**
+ * 获取用户通过用户名
+ */
+function get_user_byname($username) {
+    $user = db_select('user', 'u')
+      ->fields('u')
+      ->condition('username', $username)
+      ->execute()
+      ->fetchObject();
+
+    if($user){
+      attach_role($user);
+    }
+
+    return $user;
+}
+
+/**
+ * 获取用户通过email
+ */
+function get_user_byemail($email) {
+    $user = db_select('user', 'u')
+      ->fields('u')
+      ->condition('email', $email)
+      ->execute()
+      ->fetchObject();
+
+    if($user){
+      attach_role($user);
+    }
+
+    return $user;
+}
+
+/**
+ * 获取用户email通过uid
+ */
+function get_user_mail_byid($uid) {
+    $mail = db_select('user', 'u')
+      ->fields('u', array('email'))
+      ->condition('u.uid', $uid)
+      ->execute()
+      ->fetchField();
+
+    return $mail;
+}
+
+/**
+ * 验证用户名和密码获取用户
+ */
+function user_check($username, $password) {
+  $user = get_user_byname($username);
+
+  if($user){
+    if (hunter_password_verify($password, $user->password)) {
+      db_update('user')
+        ->fields(array(
+          'accessed' => time(),
+        ))
+        ->condition('uid', $user->uid)
+        ->execute();
+
+      return $user;
+    }
+  }
+  return false;
+}
+
+/**
+ * 根据id取用户头像.
+ */
+function get_useravatar_byid($uid) {
+  $useravatar = db_select('user', 'u')
+    ->fields('u', array('avatar'))
+    ->condition('uid', $uid)
+    ->execute()
+    ->fetchField();
+
+  if(empty($useravatar)){
+    $useravatar = '/theme/admin/assets/imgs/common/user-photo.jpg';
+  }
+
+  return $useravatar;
+}

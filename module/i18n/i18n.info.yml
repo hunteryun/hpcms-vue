@@ -1,0 +1,5 @@
+name: i18n
+type: module
+description: Extends HunterPHP support for multilingual features.
+core: 1.x
+package: Hunter
